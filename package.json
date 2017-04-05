@@ -12,11 +12,20 @@
   },
   "author": "Jonathan Taylor",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taylorjg/dlxlibjs.git"
+  },
+  "homepage": "https://github.com/taylorjg/dlxlibjs",
+  "bugs": {
+    "url": "https://github.com/taylorjg/dlxlibjs/issues"
+  },
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
+    "babel-runtime": "^6.23.0",
     "chai": "^3.5.0",
     "eslint": "^3.19.0",
     "eslint-loader": "^1.7.1",
