@@ -2,7 +2,7 @@ const dlxlib = require('../build/index');
 const matrices = require('./matrices');
 const expect = require('chai').expect;
 
-describe('dlxlib solutionGenerator tests', function() {
+describe('#solutionGenerator tests', function() {
 
     it('solving an empty matrix returns an empty generator', function() {
         const generator = dlxlib.solutionGenerator(matrices.MATRIX_EMPTY);
@@ -11,7 +11,7 @@ describe('dlxlib solutionGenerator tests', function() {
     });
 
     it('solving a matrix with one solution returns a generator with one solution', function() {
-        const generator = dlxlib.solutionGenerator(matrices.MATRIX_ONE_SOLUTION);
+        const generator = dlxlib.solutionGenerator(matrices.MATRIX_WITH_ONE_SOLUTION);
         const iteratorResult1 = generator.next();
         expect(iteratorResult1.done).to.be.false;
         const iteratorResult2 = generator.next();
@@ -19,7 +19,7 @@ describe('dlxlib solutionGenerator tests', function() {
     });
 
     it('solving a matrix with one solution returns a generator with the correct solution', function() {
-        const generator = dlxlib.solutionGenerator(matrices.MATRIX_ONE_SOLUTION);
+        const generator = dlxlib.solutionGenerator(matrices.MATRIX_WITH_ONE_SOLUTION);
         const iteratorResult1 = generator.next();
         expect(iteratorResult1.value).to.deep.equal([0, 3, 4]);
     });

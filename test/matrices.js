@@ -1,6 +1,6 @@
 const MATRIX_EMPTY = [];
 
-const MATRIX_ONE_SOLUTION = [
+const MATRIX_WITH_ONE_SOLUTION = [
     [0, 0, 1, 0, 1, 1, 0],
     [1, 0, 0, 1, 0, 0, 1],
     [0, 1, 1, 0, 0, 1, 0],
@@ -9,7 +9,7 @@ const MATRIX_ONE_SOLUTION = [
     [0, 0, 0, 1, 1, 0, 1]    
 ];
 
-const MATRIX_THREE_SOLUTIONS = [
+const MATRIX_WITH_THREE_SOLUTIONS = [
     [1, 0, 0, 0],
     [0, 1, 1, 0],
     [1, 0, 0, 1],
@@ -20,6 +20,6 @@ const MATRIX_THREE_SOLUTIONS = [
 
 module.exports = {
     MATRIX_EMPTY,
-    MATRIX_ONE_SOLUTION,
-    MATRIX_THREE_SOLUTIONS
+    MATRIX_WITH_ONE_SOLUTION,
+    MATRIX_WITH_THREE_SOLUTIONS
 };
