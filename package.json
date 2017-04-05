@@ -7,9 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "compile": "webpack",
-    "prepublish": "npm run compile",
-    "test": "npm run compile && mocha"
+    "build": "webpack",
+    "test": "npm run build && mocha"
   },
   "author": "Jonathan Taylor",
   "license": "MIT",
