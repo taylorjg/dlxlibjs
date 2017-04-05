@@ -1,8 +1,8 @@
-const dlxlib = require('../build/index');
-const matrices = require('./matrices');
-const expect = require('chai').expect;
+var dlxlib = require('../build/index');
+var matrices = require('./matrices');
+var expect = require('chai').expect;
 
-describe('dlxlib es5 tests', function() {
+describe('dlxlib solve tests', function() {
 
     it('solving an empty matrix returns an empty array of solutions', function() {
         const solutions = dlxlib.solve(matrices.MATRIX_EMPTY);

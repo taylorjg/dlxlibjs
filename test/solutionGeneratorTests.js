@@ -2,7 +2,7 @@ const dlxlib = require('../build/index');
 const matrices = require('./matrices');
 const expect = require('chai').expect;
 
-describe('dlxlib es6 tests', function() {
+describe('dlxlib solutionGenerator tests', function() {
 
     it('solving an empty matrix returns an empty generator', function() {
         const generator = dlxlib.solutionGenerator(matrices.MATRIX_EMPTY);
