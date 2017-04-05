@@ -1,20 +1,20 @@
 const path = require('path');
-const destDir = path.join(__dirname, 'dest');
+const buildDir = path.join(__dirname, 'build');
 
 module.exports = {
     entry: [
         './src/index.js'
     ],
     output: {
-        path: destDir,
-        filename: 'dlxlib.js'
+        path: buildDir,
+        filename: 'index.js'
     },
     module: {
         rules: [
             {
                 enforce: "pre",
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: [/node_modules/, /build/],
                 use: 'eslint-loader'
             },
             {

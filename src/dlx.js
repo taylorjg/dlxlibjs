@@ -1,11 +1,23 @@
 import { DataObject } from './dataObject';
 import { ColumnObject } from './columnObject';
 
-export default function* (matrix, onSearchStep, onSolutionFound) {
+export const solve = (matrix, onSearchStep, onSolutionFound, n) => {
+    const generator = solutionGenerator(matrix, onSearchStep, onSolutionFound);
+    const max = n || Number.MAX_VALUE;
+    const solutions = [];
+    for (let i = 0; i < max; i++) {
+        const iteratorResult = generator.next();
+        if (iteratorResult.done) break;
+        solutions.push(iteratorResult.value);
+    }
+    return solutions;
+};
+
+export const solutionGenerator = function* (matrix, onSearchStep, onSolutionFound) {
     const root = buildInternalStructure(matrix);
     const searchState = new SearchState(root, onSearchStep, onSolutionFound);
     yield* search(searchState);
-}
+};
 
 const buildInternalStructure = matrix => {
 

@@ -1,1 +1,1 @@
-export { default } from './dlx';
+export * from './dlx';
