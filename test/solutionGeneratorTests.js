@@ -1,4 +1,4 @@
-const dlxlib = require('../build/index');
+const dlxlib = require('../lib/index');
 const matrices = require('./matrices');
 const expect = require('chai').expect;
 

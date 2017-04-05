@@ -1,1 +1,6 @@
 src/
+.babelrc
+.eslintrc
+.eslintignore
+circle.yml
+webpack.config.js
