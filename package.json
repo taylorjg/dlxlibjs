@@ -1,6 +1,6 @@
 {
   "name": "dlxlib",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Solves exact cover problems by implementing Donald E. Knuth's Algorithm X using the Dancing Links technique",
   "main": "lib/index.js",
   "directories": {
@@ -11,7 +11,8 @@
     "compile": "webpack",
     "uglify": "uglifyjs lib/index.js -o lib/index.min.js --mangle",
     "build": "npm run compile && npm run uglify",
-    "test": "npm run build && mocha --compilers js:babel-register"
+    "test": "npm run build && mocha --compilers js:babel-register",
+    "prepublish": "npm run build"
   },
   "author": "Jonathan Taylor",
   "license": "MIT",
@@ -24,7 +25,6 @@
     "url": "https://github.com/taylorjg/dlxlibjs/issues"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-runtime": "^6.23.0",

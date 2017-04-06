@@ -3,4 +3,3 @@ src/
 .eslintrc
 .eslintignore
 circle.yml
-webpack.config.js
