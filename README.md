@@ -1,5 +1,14 @@
 [![CircleCI](https://circleci.com/gh/taylorjg/dlxlibjs.svg?style=svg)](https://circleci.com/gh/taylorjg/dlxlibjs)
 
+## Description
+
+This is a JavaScript library to solve exact cover problems by implementing Donald E. Knuth's Algorithm X using the Dancing Links technique.
+
+* [Knuth's original paper](https://arxiv.org/pdf/cs/0011047v1.pdf)
+* [Knuth's Algorithm X (Wikipedia)](http://en.wikipedia.org/wiki/Algorithm_X "Knuth's Algorithm X (Wikipedia)")
+* [Dancing Links (Wikipedia)](http://en.wikipedia.org/wiki/Dancing_Links "Dancing Links (Wikipedia)")
+* [Exact cover (Wikipedia)](http://en.wikipedia.org/wiki/Exact_cover "Exact cover (Wikipedia)")
+
 ## Simple Example
 
 ```js
@@ -25,6 +34,9 @@ for (var i = 0; i < solutions.length; i++) {
 ```
 
 ## Callbacks
+
+The `onSearchStep` callback is particularly useful for visualising the progress of the algorithm.
+For an example of this approach, see [this Sudoku solver](https://sudoku-dlx-js.herokuapp.com/).
 
 ```js
 var dlxlib = require('dlxlib');
@@ -64,7 +76,7 @@ dlxlib.solve(matrix, onSearchStep, onSolutionFound);
 // solution[2]: [2,4,5]
 ```
 
-## Limiting The Number Of Solutions
+## Specifying the number of solutions to return
 
 ```js
 var dlxlib = require('dlxlib');
@@ -86,7 +98,10 @@ if (solutions.length) {
 // first solution: [0,3,4]
 ```
 
-## Using The Solution Generator
+## Using the solution generator
+
+As an alternative to `dlxlib.solve`, `dlxlib.solutionGenerator` returns a
+[Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
 
 ```js
 import { solutionGenerator } from 'dlxlib';
