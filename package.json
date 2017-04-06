@@ -9,7 +9,7 @@
   },
   "scripts": {
     "compile": "babel src/ -d lib/",
-    "test": "npm run compile && mocha --compilers js:babel-register"
+    "test": "npm run compile && mocha --no-colors --compilers js:babel-register"
   },
   "author": "Jonathan Taylor",
   "license": "MIT",
