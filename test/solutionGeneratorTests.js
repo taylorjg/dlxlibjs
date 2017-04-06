@@ -1,13 +1,13 @@
 import { expect } from 'chai';
-import { solutionGenerator } from '../lib/index';
+import { solutionGenerator } from '../lib';
 import * as M from './matrices';
 
 describe('#solutionGenerator tests', function() {
 
     it('solving an empty matrix returns an empty generator', function() {
         const generator = solutionGenerator(M.MATRIX_EMPTY);
-        const iteratorResult = generator.next();
-        expect(iteratorResult.done).to.be.true;
+        const solutions = Array.from(generator);
+        expect(solutions).to.be.empty;
     });
 
     it('solving a matrix with one solution returns a generator with one solution', function() {

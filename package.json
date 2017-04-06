@@ -8,8 +8,10 @@
     "test": "test"
   },
   "scripts": {
-    "compile": "babel src/ -d lib/",
-    "test": "npm run compile && mocha --no-colors --compilers js:babel-register"
+    "compile": "webpack",
+    "uglify": "uglifyjs lib/index.js -o lib/index.min.js --mangle",
+    "build": "npm run compile && npm run uglify",
+    "test": "npm run build && mocha --compilers js:babel-register"
   },
   "author": "Jonathan Taylor",
   "license": "MIT",
@@ -24,6 +26,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-register": "^6.24.0",
@@ -31,6 +34,7 @@
     "chai": "^3.5.0",
     "eslint": "^3.19.0",
     "mocha": "^3.2.0",
-    "uglify-js": "^2.8.21"
+    "uglify-js": "^2.8.21",
+    "webpack": "^2.3.3"
   }
 }
