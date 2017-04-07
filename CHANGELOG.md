@@ -3,5 +3,5 @@
 * Added keywords to package.json
 * Added JSDoc comments to the source code
 * Added this CHANGELOG.md
-* Updated README.md with links to a couple of demo programs
+* Updated README.md with links to a couple of example programs
 

@@ -9,6 +9,11 @@ This is a JavaScript library to solve exact cover problems by implementing Donal
 * [Dancing Links (Wikipedia)](http://en.wikipedia.org/wiki/Dancing_Links "Dancing Links (Wikipedia)")
 * [Exact cover (Wikipedia)](http://en.wikipedia.org/wiki/Exact_cover "Exact cover (Wikipedia)")
 
+## Examples
+
+* [Visualisation of solving a Sudoku puzzle](https://sudoku-dlx-js.herokuapp.com/)
+* [Visualisation of solving a Tetris Cube puzzle](https://tetriscubewebgl.herokuapp.com/)
+
 ## Simple Example
 
 ```js
@@ -36,7 +41,6 @@ for (var i = 0; i < solutions.length; i++) {
 ## Callbacks
 
 The `onSearchStep` callback is particularly useful for visualising the progress of the algorithm.
-For an example of this approach, see [this Sudoku solver](https://sudoku-dlx-js.herokuapp.com/).
 
 ```js
 var dlxlib = require('dlxlib');
