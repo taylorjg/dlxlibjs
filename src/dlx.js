@@ -1,6 +1,46 @@
 import { DataObject } from './dataObject';
 import { ColumnObject } from './columnObject';
 
+/**
+ * @typedef {number[]} PartialSolution The indices of the matrix rows that comprise a partial solution.
+ */
+
+/**
+ * @typedef {number[]} Solution The indices of the matrix rows that comprise a complete solution.
+ */
+
+/**
+ * This callback is invoked for each step of the algorithm.
+ * @callback searchStepCallback
+ * @param {PartialSolution} partialSolution The partial solution that represents this step of the algorithm.
+ */
+
+/**
+ * This callback is invoked for each solution found.
+ * @callback solutionFoundCallback
+ * @param {Solution} solution A complete solution to the matrix being solved.
+ */
+
+/**
+ * @typedef {*} MatrixValue Matrix values can be of any time. Anything truthy is treated as a 1. Anything falsy is treated as a 0.
+ */
+
+/**
+ * @typedef {MatrixValue[]} MatrixRow A matrix row is an array of {MatrixValue}.
+ */
+
+/**
+ * @typedef {MatrixRow[]} Matrix A matrix is an array of {MatrixRow}.
+ */
+
+/**
+ * Solves the matrix and returns an array of solutions.
+ * @param {Matrix} matrix The matrix to be solved.
+ * @param {searchStepCallback} [onSearchStep] A callback to be invoked for each step of the algorithm.
+ * @param {solutionFoundCallback} [onSolutionFound] A callback to be invoked for each solution found.
+ * @param {number} [n] The number of solutions to be returned. By default, all solutions are returned.
+ * @returns {Solution[]} The solutions that were found.
+ */
 export const solve = (matrix, onSearchStep, onSolutionFound, n) => {
     const generator = solutionGenerator(matrix, onSearchStep, onSolutionFound);
     const max = n || Number.MAX_VALUE;
@@ -13,6 +53,13 @@ export const solve = (matrix, onSearchStep, onSolutionFound, n) => {
     return solutions;
 };
 
+/**
+ * Creates an ES2015 Generator object that can be used to iterate over the solutions to the matrix.
+ * @param {Matrix} matrix The matrix to be solved.
+ * @param {searchStepCallback} [onSearchStep] A callback to be invoked for each step of the algorithm.
+ * @param {solutionFoundCallback} [onSolutionFound] A callback to be invoked for each solution found.
+ * @returns {IterableIterator.<number>} An ES2015 Generator object that can be used to iterate over the solutions.
+ */
 export const solutionGenerator = function* (matrix, onSearchStep, onSolutionFound) {
     const root = buildInternalStructure(matrix);
     const searchState = new SearchState(root, onSearchStep, onSolutionFound);

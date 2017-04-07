@@ -1,7 +1,13 @@
 {
   "name": "dlxlib",
-  "version": "1.0.2",
-  "description": "Solves exact cover problems by implementing Donald E. Knuth's Algorithm X using the Dancing Links technique",
+  "version": "1.0.3",
+  "description": "Solves exact cover problems by implementing Donald E. Knuth's Algorithm X using the Dancing Links technique (DLX)",
+  "keywords": [
+    "dancing links",
+    "dlx",
+    "exact cover",
+    "algorithm"
+  ],
   "main": "lib/index.js",
   "directories": {
     "lib": "lib",
