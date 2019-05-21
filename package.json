@@ -31,7 +31,7 @@
     "url": "https://github.com/taylorjg/dlxlibjs/issues"
   },
   "devDependencies": {
-    "webpack": "^2.3.3"
+    "webpack-cli": "^3.3.2"
   },
   "dependencies": {
     "@babel/cli": "^7.4.4",
@@ -43,6 +43,7 @@
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
-    "uglify-js": "^3.5.15"
+    "uglify-js": "^3.5.15",
+    "webpack": "^4.32.0"
   }
 }

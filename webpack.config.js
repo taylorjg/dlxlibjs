@@ -2,6 +2,7 @@ const path = require('path')
 const libDir = path.join(__dirname, 'lib')
 
 module.exports = {
+    mode: 'development',
     entry: './src/index.js',
     output: {
         path: libDir,
