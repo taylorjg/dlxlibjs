@@ -1,5 +1,4 @@
 .babelrc
-.eslintrc
 .eslintrc.js
 .eslintignore
 src/

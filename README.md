@@ -17,21 +17,21 @@ This is a JavaScript library to solve exact cover problems by implementing Donal
 ## Simple Example
 
 ```js
-var dlxlib = require('dlxlib');
+import { solve } from 'dlxlib'
 
-var matrix = [
+const matrix = [
     [1, 0, 0, 0],
     [0, 1, 1, 0],
     [1, 0, 0, 1],
     [0, 0, 1, 1],
     [0, 1, 0, 0],
     [0, 0, 1, 0]
-];
+]
 
-var solutions = dlxlib.solve(matrix);
-for (var i = 0; i < solutions.length; i++) {
-    console.log('solution[%d]: %s', i, JSON.stringify(solutions[i]));
-}
+const solutions = solve(matrix)
+solutions.forEach((solution, index) => {
+    console.log('solution[%d]: %s', index, JSON.stringify(solutions[index]))
+})
 
 // solution[0]: [0,3,4]
 // solution[1]: [1,2]
@@ -43,29 +43,29 @@ for (var i = 0; i < solutions.length; i++) {
 The `onSearchStep` callback is particularly useful for visualising the progress of the algorithm.
 
 ```js
-var dlxlib = require('dlxlib');
+import { solve } from 'dlxlib'
 
-var matrix = [
+const matrix = [
     [1, 0, 0, 0],
     [0, 1, 1, 0],
     [1, 0, 0, 1],
     [0, 0, 1, 1],
     [0, 1, 0, 0],
     [0, 0, 1, 0]
-];
+]
 
-var searchStepCount = 0;
+let searchStepCount = 0
 function onSearchStep(rowIndices) {
-    console.log('\tpartial solution[%d]: %s', searchStepCount++, JSON.stringify(rowIndices));
+    console.log('\tpartial solution[%d]: %s', searchStepCount++, JSON.stringify(rowIndices))
 }
 
-var solutionCount = 0;
+let solutionCount = 0
 function onSolutionFound(rowIndices) {
-    console.log('solution[%d]: %s', solutionCount++, JSON.stringify(rowIndices));
-    searchStepCount = 0;
+    console.log('solution[%d]: %s', solutionCount++, JSON.stringify(rowIndices))
+    searchStepCount = 0
 }
 
-dlxlib.solve(matrix, onSearchStep, onSolutionFound);
+solve(matrix, onSearchStep, onSolutionFound)
 
 //         partial solution[0]: []
 //         partial solution[1]: [0]
@@ -83,20 +83,20 @@ dlxlib.solve(matrix, onSearchStep, onSolutionFound);
 ## Specifying the number of solutions to return
 
 ```js
-var dlxlib = require('dlxlib');
+import { solve } from 'dlxlib'
 
-var matrix = [
+const matrix = [
     [1, 0, 0, 0],
     [0, 1, 1, 0],
     [1, 0, 0, 1],
     [0, 0, 1, 1],
     [0, 1, 0, 0],
     [0, 0, 1, 0]
-];
+]
 
-var solutions = dlxlib.solve(matrix, null, null, 1);
+const solutions = solve(matrix, null, null, 1)
 if (solutions.length) {
-    console.log('first solution: %s', JSON.stringify(solutions[0]));
+    console.log('first solution: %s', JSON.stringify(solutions[0]))
 }
 
 // first solution: [0,3,4]
@@ -108,7 +108,7 @@ As an alternative to `dlxlib.solve`, `dlxlib.solutionGenerator` returns a
 [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
 
 ```js
-import { solutionGenerator } from 'dlxlib';
+import { solutionGenerator } from 'dlxlib'
 
 const matrix = [
     [1, 0, 0, 0],
@@ -117,12 +117,12 @@ const matrix = [
     [0, 0, 1, 1],
     [0, 1, 0, 0],
     [0, 0, 1, 0]
-];
+]
 
-const generator = solutionGenerator(matrix);
-const iteratorResult = generator.next();
+const generator = solutionGenerator(matrix)
+const iteratorResult = generator.next()
 if (!iteratorResult.done) {
-    console.log('first solution: %s', JSON.stringify(iteratorResult.value));
+    console.log('first solution: %s', JSON.stringify(iteratorResult.value))
 }
 
 // first solution: [0,3,4]
