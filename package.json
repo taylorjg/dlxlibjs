@@ -38,12 +38,12 @@
     "babel-preset-es2015": "^6.24.0",
     "babel-register": "^6.24.0",
     "babel-runtime": "^6.23.0",
-    "uglify-js": "^2.8.21",
     "webpack": "^2.3.3"
   },
   "dependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "uglify-js": "^3.5.15"
   }
 }
