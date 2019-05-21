@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { solutionGenerator } from '../lib';
+import { solutionGenerator } from '../src';
 import * as M from './matrices';
 
 describe('#solutionGenerator tests', function() {

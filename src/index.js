@@ -1,1 +1,2 @@
-export * from './dlx';
+import '@babel/polyfill'
+export * from './dlx'
