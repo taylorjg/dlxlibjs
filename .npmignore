@@ -1,5 +1,5 @@
-src/
 .babelrc
 .eslintrc
+.eslintrc.js
 .eslintignore
-circle.yml
+src/
