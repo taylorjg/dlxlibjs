@@ -6,7 +6,9 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: libDir,
-        filename: 'index.js'
+        filename: 'index.js',
+        library: 'dlxlib',
+        libraryTarget: 'umd'
     },
     module: {
         rules: [

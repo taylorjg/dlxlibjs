@@ -41,8 +41,8 @@ import { ColumnObject } from './columnObject'
  * @param {number} [n] The number of solutions to be returned. By default, all solutions are returned.
  * @returns {Solution[]} The solutions that were found.
  */
-export const solve = (matrix, onSearchStep, onSolutionFound, n) => {
-    const generator = solutionGenerator(matrix, onSearchStep, onSolutionFound)
+export const solve = (matrix, onSearchStep, onSolutionFound, n, numPrimaryColumns) => {
+    const generator = solutionGenerator(matrix, onSearchStep, onSolutionFound, numPrimaryColumns)
     const max = n || Number.MAX_VALUE
     const solutions = []
     for (let i = 0; i < max; i++) {
@@ -60,13 +60,15 @@ export const solve = (matrix, onSearchStep, onSolutionFound, n) => {
  * @param {solutionFoundCallback} [onSolutionFound] A callback to be invoked for each solution found.
  * @returns {IterableIterator.<number>} An ES2015 Generator object that can be used to iterate over the solutions.
  */
-export const solutionGenerator = function* (matrix, onSearchStep, onSolutionFound) {
-    const root = buildInternalStructure(matrix)
+export const solutionGenerator = function* (matrix, onSearchStep, onSolutionFound, numPrimaryColumns) {
+    const root = buildInternalStructure(matrix, numPrimaryColumns)
     const searchState = new SearchState(root, onSearchStep, onSolutionFound)
     yield* search(searchState)
 }
 
-const buildInternalStructure = matrix => {
+const buildInternalStructure = (matrix, numPrimaryColumns) => {
+
+    numPrimaryColumns = numPrimaryColumns || (matrix[0] ? matrix[0].length : 0)
 
     const root = new ColumnObject()
     const colIndexToListHeader = new Map()
@@ -76,7 +78,9 @@ const buildInternalStructure = matrix => {
         row.forEach((col, colIndex) => {
             if (rowIndex === 0) {
                 const listHeader = new ColumnObject()
-                root.appendColumnHeader(listHeader)
+                if (colIndex < numPrimaryColumns) {
+                    root.appendColumnHeader(listHeader)
+                }
                 colIndexToListHeader.set(colIndex, listHeader)
             }
             if (col) {

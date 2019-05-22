@@ -16,7 +16,7 @@
   "scripts": {
     "uglify": "uglifyjs lib/index.js -o lib/index.min.js --mangle",
     "build": "webpack && npm run uglify",
-    "test": "mocha --require @babel/register",
+    "test": "mocha --require @babel/polyfill --require @babel/register",
     "prepublish": "npm run build",
     "eslint": "eslint ."
   },
@@ -44,6 +44,6 @@
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "uglify-js": "^3.5.15",
-    "webpack": "^4.32.0"
+    "webpack": "^4.32.1"
   }
 }
