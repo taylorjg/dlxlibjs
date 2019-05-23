@@ -8,7 +8,10 @@ module.exports = {
         path: libDir,
         filename: 'index.js',
         library: 'dlxlib',
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
+        // https://medium.com/@JakeXiao/window-is-undefined-in-umd-library-output-for-webpack4-858af1b881df
+        // https://github.com/webpack/webpack/issues/6522
+        globalObject: 'this'
     },
     module: {
         rules: [
