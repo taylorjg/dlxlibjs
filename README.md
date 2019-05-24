@@ -13,29 +13,31 @@ This is a JavaScript library to solve exact cover problems by implementing Donal
 
 * [Visualisation of solving a Sudoku puzzle](https://sudoku-dlx-js.herokuapp.com/)
 * [Visualisation of solving a Tetris Cube puzzle](https://tetriscubewebgl.herokuapp.com/)
+* [Pentominoes](https://pentominoes.herokuapp.com/)
+* [Visualisation of solving a Ripple Effect puzzle](https://ripple-effect-dlx.herokuapp.com/)
 
 ## Simple Example
 
 ```js
-import { solve } from 'dlxlib'
+require('@babel/polyfill')
+const { solve } = require('../lib')
 
 const matrix = [
-    [1, 0, 0, 0],
-    [0, 1, 1, 0],
-    [1, 0, 0, 1],
-    [0, 0, 1, 1],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0]
+  [1, 0, 0, 0],
+  [0, 1, 1, 0],
+  [1, 0, 0, 1],
+  [0, 0, 1, 1],
+  [0, 1, 0, 0],
+  [0, 0, 1, 0]
 ]
 
 const solutions = solve(matrix)
-solutions.forEach((solution, index) => {
-    console.log('solution[%d]: %s', index, JSON.stringify(solutions[index]))
-})
+solutions.forEach((solution, index) =>
+  console.log('solution[%d]: %s', index, solution))
 
-// solution[0]: [0,3,4]
-// solution[1]: [1,2]
-// solution[2]: [2,4,5]
+// solution[0]: 0,3,4
+// solution[1]: 1,2
+// solution[2]: 2,4,5
 ```
 
 ## Callbacks
@@ -43,63 +45,66 @@ solutions.forEach((solution, index) => {
 The `onSearchStep` callback is particularly useful for visualising the progress of the algorithm.
 
 ```js
-import { solve } from 'dlxlib'
+require('@babel/polyfill')
+const { solve } = require('../lib')
 
 const matrix = [
-    [1, 0, 0, 0],
-    [0, 1, 1, 0],
-    [1, 0, 0, 1],
-    [0, 0, 1, 1],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0]
+  [1, 0, 0, 0],
+  [0, 1, 1, 0],
+  [1, 0, 0, 1],
+  [0, 0, 1, 1],
+  [0, 1, 0, 0],
+  [0, 0, 1, 0]
 ]
 
 let searchStepCount = 0
-function onSearchStep(rowIndices) {
-    console.log('\tpartial solution[%d]: %s', searchStepCount++, JSON.stringify(rowIndices))
-}
+const onSearchStep = rowIndices =>
+  console.log('onSearchStep[%d]: %s', searchStepCount++, rowIndices)
 
 let solutionCount = 0
-function onSolutionFound(rowIndices) {
-    console.log('solution[%d]: %s', solutionCount++, JSON.stringify(rowIndices))
-    searchStepCount = 0
-}
+const onSolutionFound = rowIndices =>
+  console.log('\nonSolutionFound[%d]: %s\n', solutionCount++, rowIndices)
 
 solve(matrix, onSearchStep, onSolutionFound)
 
-//         partial solution[0]: []
-//         partial solution[1]: [0]
-//         partial solution[2]: [0,3]
-//         partial solution[3]: [0,3,4]
-// solution[0]: [0,3,4]
-//         partial solution[0]: [2]
-//         partial solution[1]: [2,1]
-// solution[1]: [2,1]
-//         partial solution[0]: [2,4]
-//         partial solution[1]: [2,4,5]
-// solution[2]: [2,4,5]
+// onSearchStep[0]: 
+// onSearchStep[1]: 0
+// onSearchStep[2]: 0,3
+// onSearchStep[3]: 0,3,4
+
+// onSolutionFound[0]: 0,3,4
+
+// onSearchStep[4]: 2
+// onSearchStep[5]: 2,1
+
+// onSolutionFound[1]: 2,1
+
+// onSearchStep[6]: 2,4
+// onSearchStep[7]: 2,4,5
+
+// onSolutionFound[2]: 2,4,5
 ```
 
 ## Specifying the number of solutions to return
 
 ```js
-import { solve } from 'dlxlib'
+require('@babel/polyfill')
+const { solve } = require('../lib')
 
 const matrix = [
-    [1, 0, 0, 0],
-    [0, 1, 1, 0],
-    [1, 0, 0, 1],
-    [0, 0, 1, 1],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0]
+  [1, 0, 0, 0],
+  [0, 1, 1, 0],
+  [1, 0, 0, 1],
+  [0, 0, 1, 1],
+  [0, 1, 0, 0],
+  [0, 0, 1, 0]
 ]
 
-const solutions = solve(matrix, null, null, 1)
-if (solutions.length) {
-    console.log('first solution: %s', JSON.stringify(solutions[0]))
-}
+const solutions = solve(matrix, undefined, undefined, 1)
+solutions.forEach((solution, index) =>
+  console.log('solution[%d]: %s', index, solution))
 
-// first solution: [0,3,4]
+// solution[0]: 0,3,4
 ```
 
 ## Using the solution generator
@@ -108,22 +113,22 @@ As an alternative to `dlxlib.solve`, `dlxlib.solutionGenerator` returns a
 [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
 
 ```js
-import { solutionGenerator } from 'dlxlib'
+require('@babel/polyfill')
+const { solutionGenerator } = require('../lib')
 
 const matrix = [
-    [1, 0, 0, 0],
-    [0, 1, 1, 0],
-    [1, 0, 0, 1],
-    [0, 0, 1, 1],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0]
+  [1, 0, 0, 0],
+  [0, 1, 1, 0],
+  [1, 0, 0, 1],
+  [0, 0, 1, 1],
+  [0, 1, 0, 0],
+  [0, 0, 1, 0]
 ]
 
-const generator = solutionGenerator(matrix)
-const iteratorResult = generator.next()
-if (!iteratorResult.done) {
-    console.log('first solution: %s', JSON.stringify(iteratorResult.value))
-}
+for (const solution of solutionGenerator(matrix))
+  console.log('solution: %s', solution)
 
-// first solution: [0,3,4]
+// solution: 0,3,4
+// solution: 1,2
+// solution: 2,4,5
 ```

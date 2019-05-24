@@ -16,9 +16,13 @@
   "scripts": {
     "uglify": "uglifyjs lib/index.js -o lib/index.min.js --mangle",
     "build": "webpack && npm run uglify",
-    "test": "mocha --require @babel/polyfill --require @babel/register",
+    "test": "npm run build && mocha --require @babel/polyfill --require @babel/register",
     "prepublish": "npm run build",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "simple": "node apps/simple",
+    "callbacks": "node apps/callbacks",
+    "numSolutions": "node apps/numSolutions",
+    "generator": "node apps/generator"
   },
   "author": "Jonathan Taylor",
   "license": "MIT",

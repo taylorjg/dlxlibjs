@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { solve } from '../src'
+import { solve } from '../lib'
 import * as M from './matrices'
 
 describe('#solve tests', function() {
