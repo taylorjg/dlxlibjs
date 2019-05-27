@@ -14,8 +14,8 @@
     "test": "test"
   },
   "scripts": {
-    "uglify": "uglifyjs lib/index.js -o lib/index.min.js --mangle",
-    "build": "webpack && npm run uglify",
+    "build": "npm run rollup",
+    "rollup": "rollup --config",
     "test": "npm run build && mocha",
     "prepublish": "npm run build",
     "eslint": "eslint ."
@@ -34,9 +34,7 @@
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
-    "uglify-js": "^3.5.15",
-    "webpack": "^4.32.1",
-    "webpack-cli": "^3.3.2"
+    "rollup": "^1.12.4"
   },
   "dependencies": {}
 }
