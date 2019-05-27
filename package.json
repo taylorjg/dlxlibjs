@@ -16,7 +16,7 @@
   "scripts": {
     "uglify": "uglifyjs lib/index.js -o lib/index.min.js --mangle",
     "build": "webpack && npm run uglify",
-    "test": "npm run build && mocha --require @babel/polyfill --require @babel/register",
+    "test": "npm run build && mocha",
     "prepublish": "npm run build",
     "eslint": "eslint ."
   },
@@ -31,12 +31,6 @@
     "url": "https://github.com/taylorjg/dlxlibjs/issues"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/polyfill": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/register": "^7.4.4",
-    "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",

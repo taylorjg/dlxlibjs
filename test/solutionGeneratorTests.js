@@ -1,6 +1,6 @@
-import { expect } from 'chai'
-import { solutionGenerator, Dlx } from '../lib'
-import * as M from './matrices'
+const { expect } = require('chai')
+const { solutionGenerator, Dlx } = require('../lib')
+const M = require('./matrices')
 
 describe('#solutionGenerator tests', function () {
 

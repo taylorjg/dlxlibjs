@@ -1,6 +1,6 @@
-import { expect } from 'chai'
-import { solve, Dlx } from '../lib'
-import * as M from './matrices'
+const { expect } = require('chai')
+const { solve, Dlx } = require('../lib')
+const M = require('./matrices')
 
 describe('#solve tests', function () {
 
