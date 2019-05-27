@@ -63,4 +63,34 @@ describe('#solve tests', function () {
     dlx.solve(M.MATRIX_WITH_THREE_SOLUTIONS)
     expect(numEvents).to.equal(3)
   })
+
+  it('seconday columns can be all zeros unlike primary columns', () => {
+    const matrix = M.MATRIX_WITH_ONE_SOLUTION.map(primaryColumns => [
+      ...primaryColumns,
+      0
+    ])
+
+    const solutionsWithNoOptionsSpecified = solve(matrix)
+    expect(solutionsWithNoOptionsSpecified).to.have.lengthOf(0)
+
+    const numPrimaryColumns = M.MATRIX_WITH_ONE_SOLUTION[0].length
+    const options = { numPrimaryColumns }
+    const solutionsWithOneSecondaryColumnSpecified = solve(matrix, options)
+    expect(solutionsWithOneSecondaryColumnSpecified).to.have.lengthOf(1)
+  })
+
+  it('secondary columns can be covered only once like primary columns', () => {
+    const solutions = solve(M.MATRIX_WITH_ONE_SOLUTION)
+    expect(solutions).to.have.lengthOf(1)
+    const solution = solutions[0]
+    const matrixWithSecondaryColumn = M.MATRIX_WITH_ONE_SOLUTION
+      .map((primaryColumns, index) => [
+        ...primaryColumns,
+        solution.includes(index) ? 1 : 0
+      ])
+    const numPrimaryColumns = M.MATRIX_WITH_ONE_SOLUTION[0].length
+    const options = { numPrimaryColumns }
+    const solutionsWithSecondaryColumn = solve(matrixWithSecondaryColumn, options)
+    expect(solutionsWithSecondaryColumn).to.have.lengthOf(0)
+  })
 })
