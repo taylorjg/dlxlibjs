@@ -33,12 +33,18 @@ describe('#solve tests', function () {
   })
 
   it('solving a matrix with three solutions but n set to two returns an array with two solutions', function () {
-    const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS, null, null, 2)
+    const options = {
+      numSolutions: 2
+    }
+    const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS, null, null, options)
     expect(solutions).to.have.lengthOf(2)
   })
 
   it('solving a matrix with three solutions but n set to five returns an array with three solutions', function () {
-    const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS, null, null, 5)
+    const options = {
+      numSolutions: 3
+    }
+    const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS, null, null, options)
     expect(solutions).to.have.lengthOf(3)
   })
 
