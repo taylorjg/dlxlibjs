@@ -1,3 +1,5 @@
+const EventEmitter = require('events')
+
 import { DataObject } from './dataObject'
 import { ColumnObject } from './columnObject'
 
@@ -7,18 +9,6 @@ import { ColumnObject } from './columnObject'
 
 /**
  * @typedef {number[]} Solution The indices of the matrix rows that comprise a complete solution.
- */
-
-/**
- * This callback is invoked for each step of the algorithm.
- * @callback searchStepCallback
- * @param {PartialSolution} partialSolution The partial solution that represents this step of the algorithm.
- */
-
-/**
- * This callback is invoked for each solution found.
- * @callback solutionFoundCallback
- * @param {Solution} solution A complete solution to the matrix being solved.
  */
 
 /**
@@ -33,62 +23,84 @@ import { ColumnObject } from './columnObject'
  * @typedef {MatrixRow[]} Matrix A matrix is an array of {MatrixRow}.
  */
 
- const defaultOptions = {
-   numSolutions: Number.MAX_SAFE_INTEGER,
-   numPrimaryColumns: Number.MAX_SAFE_INTEGER
- }
-
 /**
  * Solves the matrix and returns an array of solutions.
  * @param {Matrix} matrix The matrix to be solved.
- * @param {searchStepCallback} [onSearchStep] A callback to be invoked for each step of the algorithm.
- * @param {solutionFoundCallback} [onSolutionFound] A callback to be invoked for each solution found.
  * @param {object} [options] Optional options object.
  * @param {number} options.numSolutions The number of solutions to be returned. By default, all solutions are returned.
  * @param {number} options.numPrimaryColumns The number of primary columns. By default, all columns are primary.
  *     Any remaining columns are considered to be secondary columns.
  * @returns {Solution[]} The solutions that were found.
  */
-export const solve = (matrix, onSearchStep, onSolutionFound, options) => {
-  const actualOptions = Object.assign({}, defaultOptions, options)
-  if (!Number.isInteger(actualOptions.numSolutions)) {
-    throw new Error('options.numSolutions must be an integer')
-  }
-  if (actualOptions.numSolutions < 0) {
-    throw new Error(`options.numSolutions can't be negative - don't be silly`)
-  }
-  const generator = solutionGenerator(matrix, onSearchStep, onSolutionFound, actualOptions)
-  const numSolutions = actualOptions.numSolutions
-  const solutions = []
-  for (let index = 0; index < numSolutions; index++) {
-    const iteratorResult = generator.next()
-    if (iteratorResult.done) break
-    solutions.push(iteratorResult.value)
-  }
-  return solutions
-}
+export const solve = (matrix, options) => new Dlx().solve(matrix, options)
 
 /**
  * Creates an ES2015 Generator object that can be used to iterate over the solutions to the matrix.
  * @param {Matrix} matrix The matrix to be solved.
- * @param {searchStepCallback} [onSearchStep] A callback to be invoked for each step of the algorithm.
- * @param {solutionFoundCallback} [onSolutionFound] A callback to be invoked for each solution found.
  * @param {object} [options] Optional options object.
  * @param {number} options.numPrimaryColumns The number of primary columns. By default, all columns are primary.
  *     Any remaining columns are considered to be secondary columns.
  * @returns {IterableIterator.<number>} An ES2015 Generator object that can be used to iterate over the solutions.
  */
-export const solutionGenerator = function* (matrix, onSearchStep, onSolutionFound, options) {
-  const actualOptions = Object.assign({}, defaultOptions, options)
-  if (!Number.isInteger(actualOptions.numPrimaryColumns)) {
-    throw new Error('options.numPrimaryColumns must be an integer')
+export const solutionGenerator = function* (matrix, options) {
+  yield* new Dlx().solutionGenerator(matrix, options)
+}
+
+const defaultOptions = {
+  numSolutions: Number.MAX_SAFE_INTEGER,
+  numPrimaryColumns: Number.MAX_SAFE_INTEGER
+}
+
+export class Dlx extends EventEmitter {
+
+  /**
+   * Solves the matrix and returns an array of solutions.
+   * @param {Matrix} matrix The matrix to be solved.
+   * @param {object} [options] Optional options object.
+   * @param {number} options.numSolutions The number of solutions to be returned. By default, all solutions are returned.
+   * @param {number} options.numPrimaryColumns The number of primary columns. By default, all columns are primary.
+   *     Any remaining columns are considered to be secondary columns.
+   * @returns {Solution[]} The solutions that were found.
+   */
+  solve(matrix, options) {
+    const actualOptions = Object.assign({}, defaultOptions, options)
+    if (!Number.isInteger(actualOptions.numSolutions)) {
+      throw new Error('options.numSolutions must be an integer')
+    }
+    if (actualOptions.numSolutions < 0) {
+      throw new Error(`options.numSolutions can't be negative - don't be silly`)
+    }
+    const generator = this.solutionGenerator(matrix, actualOptions)
+    const numSolutions = actualOptions.numSolutions
+    const solutions = []
+    for (let index = 0; index < numSolutions; index++) {
+      const iteratorResult = generator.next()
+      if (iteratorResult.done) break
+      solutions.push(iteratorResult.value)
+    }
+    return solutions
   }
-  if (actualOptions.numPrimaryColumns < 0) {
-    throw new Error(`options.numPrimaryColumns can't be negative - don't be silly`)
+
+  /**
+   * Creates an ES2015 Generator object that can be used to iterate over the solutions to the matrix.
+   * @param {Matrix} matrix The matrix to be solved.
+   * @param {object} [options] Optional options object.
+   * @param {number} options.numPrimaryColumns The number of primary columns. By default, all columns are primary.
+   *     Any remaining columns are considered to be secondary columns.
+   * @returns {IterableIterator.<number>} An ES2015 Generator object that can be used to iterate over the solutions.
+   */
+  * solutionGenerator(matrix, options) {
+    const actualOptions = Object.assign({}, defaultOptions, options)
+    if (!Number.isInteger(actualOptions.numPrimaryColumns)) {
+      throw new Error('options.numPrimaryColumns must be an integer')
+    }
+    if (actualOptions.numPrimaryColumns < 0) {
+      throw new Error(`options.numPrimaryColumns can't be negative - don't be silly`)
+    }
+    const root = buildInternalStructure(matrix, actualOptions.numPrimaryColumns)
+    const searchState = new SearchState(this, root)
+    yield* search(searchState)
   }
-  const root = buildInternalStructure(matrix, actualOptions.numPrimaryColumns)
-  const searchState = new SearchState(root, onSearchStep, onSolutionFound)
-  yield* search(searchState)
 }
 
 const buildInternalStructure = (matrix, numPrimaryColumns) => {
@@ -168,11 +180,12 @@ const uncoverColumn = c => {
 
 class SearchState {
 
-  constructor(root, onSearchStep, onSolutionFound) {
+  constructor(dlx, root) {
+    this.dlx = dlx
     this.root = root
-    this.onSearchStep = onSearchStep
-    this.onSolutionFound = onSolutionFound
     this.currentSolution = []
+    this.stepIndex = 0
+    this.solutionIndex = 0
   }
 
   isEmpty() {
@@ -188,14 +201,10 @@ class SearchState {
   }
 
   searchStep() {
-    if (this.onSearchStep) {
-      this.onSearchStep(this.currentSolution)
-    }
+    this.dlx.emit('step', this.currentSolution, this.stepIndex++)
   }
 
   solutionFound() {
-    if (this.onSolutionFound) {
-      this.onSolutionFound(this.currentSolution)
-    }
+    this.dlx.emit('solution', this.currentSolution, this.solutionIndex++)
   }
 }

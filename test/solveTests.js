@@ -36,7 +36,7 @@ describe('#solve tests', function () {
     const options = {
       numSolutions: 2
     }
-    const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS, null, null, options)
+    const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS, options)
     expect(solutions).to.have.lengthOf(2)
   })
 
@@ -44,7 +44,7 @@ describe('#solve tests', function () {
     const options = {
       numSolutions: 3
     }
-    const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS, null, null, options)
+    const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS, options)
     expect(solutions).to.have.lengthOf(3)
   })
 
