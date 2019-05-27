@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { solutionGenerator } from '../lib'
+import { solutionGenerator, Dlx } from '../lib'
 import * as M from './matrices'
 
 describe('#solutionGenerator tests', function () {
@@ -37,6 +37,21 @@ describe('#solutionGenerator tests', function () {
     expect(solutions).to.deep.include.members([[2, 4, 5]])
   })
 
-  // TODO: add test(s) re onSearchStep
-  // TODO: add test(s) re onSolutionFound
+  it('step events', () => {
+    let numEvents = 0
+    const dlx = new Dlx()
+    dlx.on('step', () => numEvents++)
+    const generator = dlx.solutionGenerator(M.MATRIX_WITH_THREE_SOLUTIONS)
+    Array.from(generator)
+    expect(numEvents).to.be.greaterThan(3)
+  })
+
+  it('solution events', () => {
+    let numEvents = 0
+    const dlx = new Dlx()
+    dlx.on('solution', () => numEvents++)
+    const generator = dlx.solutionGenerator(M.MATRIX_WITH_THREE_SOLUTIONS)
+    Array.from(generator)
+    expect(numEvents).to.equal(3)
+  })
 })

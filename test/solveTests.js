@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { solve } from '../lib'
+import { solve, Dlx } from '../lib'
 import * as M from './matrices'
 
 describe('#solve tests', function () {
@@ -48,6 +48,19 @@ describe('#solve tests', function () {
     expect(solutions).to.have.lengthOf(3)
   })
 
-  // TODO: add test(s) re onSearchStep
-  // TODO: add test(s) re onSolutionFound
+  it('step events', () => {
+    let numEvents = 0
+    const dlx = new Dlx()
+    dlx.on('step', () => numEvents++)
+    dlx.solve(M.MATRIX_WITH_THREE_SOLUTIONS)
+    expect(numEvents).to.be.greaterThan(3)
+  })
+
+  it('solution events', () => {
+    let numEvents = 0
+    const dlx = new Dlx()
+    dlx.on('solution', () => numEvents++)
+    dlx.solve(M.MATRIX_WITH_THREE_SOLUTIONS)
+    expect(numEvents).to.equal(3)
+  })
 })
