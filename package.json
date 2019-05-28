@@ -37,7 +37,8 @@
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
-    "rollup": "^1.12.4"
+    "rollup": "^1.12.4",
+    "rollup-plugin-terser": "^5.0.0"
   },
   "dependencies": {}
 }
