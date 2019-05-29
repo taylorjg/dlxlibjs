@@ -12,19 +12,21 @@ import { ColumnObject } from './columnObject'
  */
 
 /**
- * @typedef {*} MatrixValue Matrix values can be of any time. Anything truthy is treated as a 1. Anything falsy is treated as a 0.
+ * @typedef {*} MatrixValue Matrix values can be of any type. Anything truthy is treated as a 1. Anything falsy is treated as a 0.
  */
 
 /**
- * @typedef {MatrixValue[]} MatrixRow A matrix row is an array of {MatrixValue}.
+ * @typedef {MatrixValue[]} MatrixRow A matrix row is an array of {@link MatrixValue}.
  */
 
 /**
- * @typedef {MatrixRow[]} Matrix A matrix is an array of {MatrixRow}.
+ * @typedef {MatrixRow[]} Matrix A matrix is an array of {@link MatrixRow}.
  */
 
 /**
  * Solves the matrix and returns an array of solutions.
+ * This is a convenience function which avoids having to create an instance of the {@link Dlx} class.
+ * It is useful if you are not interested in handling any events.
  * @param {Matrix} matrix The matrix to be solved.
  * @param {object} [options] Optional options object.
  * @param {number} options.numSolutions The number of solutions to be returned. By default, all solutions are returned.
@@ -32,17 +34,21 @@ import { ColumnObject } from './columnObject'
  *     Any remaining columns are considered to be secondary columns.
  * @returns {Solution[]} The solutions that were found.
  */
-export const solve = (matrix, options) => new Dlx().solve(matrix, options)
+export function solve(matrix, options) {
+  return new Dlx().solve(matrix, options)
+}
 
 /**
  * Creates an ES2015 Generator object that can be used to iterate over the solutions to the matrix.
+ * This is a convenience function which avoids having to create an instance of the {@link Dlx} class.
+ * It is useful if you are not interested in handling any events.
  * @param {Matrix} matrix The matrix to be solved.
  * @param {object} [options] Optional options object.
  * @param {number} options.numPrimaryColumns The number of primary columns. By default, all columns are primary.
  *     Any remaining columns are considered to be secondary columns.
  * @returns {IterableIterator.<number>} An ES2015 Generator object that can be used to iterate over the solutions.
  */
-export const solutionGenerator = function* (matrix, options) {
+export function* solutionGenerator(matrix, options) {
   yield* new Dlx().solutionGenerator(matrix, options)
 }
 
@@ -51,16 +57,21 @@ const defaultOptions = {
   numPrimaryColumns: Number.MAX_SAFE_INTEGER
 }
 
+/**
+ * 
+ */
 export class Dlx extends EventEmitter {
 
   /**
    * Solves the matrix and returns an array of solutions.
    * @param {Matrix} matrix The matrix to be solved.
-   * @param {object} [options] Optional options object.
-   * @param {number} options.numSolutions The number of solutions to be returned. By default, all solutions are returned.
-   * @param {number} options.numPrimaryColumns The number of primary columns. By default, all columns are primary.
+   * @param {object} [options] Additional options object.
+   * @param {number} [options.numSolutions] The number of solutions to be returned. By default, all solutions are returned.
+   * @param {number} [options.numPrimaryColumns] The number of primary columns. By default, all columns are primary.
    *     Any remaining columns are considered to be secondary columns.
    * @returns {Solution[]} The solutions that were found.
+   * @fires Dlx#step
+   * @fires Dlx#solution
    */
   solve(matrix, options) {
     const actualOptions = Object.assign({}, defaultOptions, options)
@@ -84,10 +95,12 @@ export class Dlx extends EventEmitter {
   /**
    * Creates an ES2015 Generator object that can be used to iterate over the solutions to the matrix.
    * @param {Matrix} matrix The matrix to be solved.
-   * @param {object} [options] Optional options object.
-   * @param {number} options.numPrimaryColumns The number of primary columns. By default, all columns are primary.
+   * @param {object} [options] Additional options object.
+   * @param {number} [options.numPrimaryColumns] The number of primary columns. By default, all columns are primary.
    *     Any remaining columns are considered to be secondary columns.
-   * @returns {IterableIterator.<number>} An ES2015 Generator object that can be used to iterate over the solutions.
+   * @returns {IterableIterator.<Solution>} An ES2015 Generator object that can be used to iterate over the solutions.
+   * @fires Dlx#step
+   * @fires Dlx#solution
    */
   * solutionGenerator(matrix, options) {
     const actualOptions = Object.assign({}, defaultOptions, options)
@@ -102,6 +115,22 @@ export class Dlx extends EventEmitter {
     yield* search(searchState)
   }
 }
+
+/**
+ * Step event - fired for each step of the algorithm.
+ * @event Dlx#step
+ * @type object
+ * @property {PartialSolution} partialSolution The current partial solution at this step of the algorithm.
+ * @property {number} stepIndex The index of this step of the algorithm (0, 1, 2, ...).
+ */
+
+/**
+ * Solution event - fired for each solution found.
+ * @event Dlx#solution
+ * @type object
+ * @property {Solution} solution A solution to the matrix.
+ * @property {number} solutionIndex The index of this solution (0, 1, 2, ...).
+ */
 
 const buildInternalStructure = (matrix, numPrimaryColumns) => {
 
@@ -141,7 +170,7 @@ function* search(searchState) {
   if (searchState.isEmpty()) {
     if (searchState.currentSolution.length) {
       searchState.solutionFound()
-      yield searchState.currentSolution.slice().sort()
+      yield searchState.currentSolution.slice()
     }
     return
   }
@@ -201,10 +230,18 @@ class SearchState {
   }
 
   searchStep() {
-    this.dlx.emit('step', this.currentSolution, this.stepIndex++)
+    const e = {
+      partialSolution: this.currentSolution.slice(),
+      stepIndex: this.stepIndex++
+    }
+    this.dlx.emit('step', e)
   }
 
   solutionFound() {
-    this.dlx.emit('solution', this.currentSolution, this.solutionIndex++)
+    const e = {
+      solution: this.currentSolution.slice(),
+      solutionIndex: this.solutionIndex++
+    }
+    this.dlx.emit('solution', e)
   }
 }
