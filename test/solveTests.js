@@ -1,4 +1,7 @@
-const { expect } = require('chai')
+const chai = require('chai')
+const { expect } = chai
+const deepEqualInAnyOrder = require('deep-equal-in-any-order')
+chai.use(deepEqualInAnyOrder)
 const { solve, Dlx } = require('../lib')
 const M = require('./matrices')
 
@@ -16,8 +19,9 @@ describe('#solve tests', function () {
 
   it('solving a matrix with one solution returns an array with the correct solution', function () {
     const solutions = solve(M.MATRIX_WITH_ONE_SOLUTION)
-    const solution = solutions[0]
-    expect(solution).to.deep.equal([0, 3, 4])
+    expect(solutions).to.deep.equalInAnyOrder([
+      [0, 3, 4]
+    ])
   })
 
   it('solving a matrix with three solutions returns an array with three solutions', function () {
@@ -27,9 +31,11 @@ describe('#solve tests', function () {
 
   it('solving a matrix with three solutions returns an array with the correct three solutions', function () {
     const solutions = solve(M.MATRIX_WITH_THREE_SOLUTIONS)
-    expect(solutions).to.deep.include.members([[0, 3, 4]])
-    expect(solutions).to.deep.include.members([[1, 2]])
-    expect(solutions).to.deep.include.members([[2, 4, 5]])
+    expect(solutions).to.deep.equalInAnyOrder([
+      [0, 3, 4],
+      [1, 2],
+      [2, 4, 5],
+    ])
   })
 
   it('solving a matrix with three solutions but n set to two returns an array with two solutions', function () {

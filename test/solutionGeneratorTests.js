@@ -1,4 +1,7 @@
-const { expect } = require('chai')
+const chai = require('chai')
+const { expect } = chai
+const deepEqualInAnyOrder = require('deep-equal-in-any-order')
+chai.use(deepEqualInAnyOrder)
 const { solutionGenerator, Dlx } = require('../lib')
 const M = require('./matrices')
 
@@ -19,8 +22,9 @@ describe('#solutionGenerator tests', function () {
   it('solving a matrix with one solution returns a generator with the correct solution', function () {
     const generator = solutionGenerator(M.MATRIX_WITH_ONE_SOLUTION)
     const solutions = Array.from(generator)
-    const solution = solutions[0]
-    expect(solution).to.deep.equal([0, 3, 4])
+    expect(solutions).to.deep.equalInAnyOrder([
+      [0, 3, 4]
+    ])
   })
 
   it('solving a matrix with three solutions returns a generator with three solutions', function () {
@@ -32,9 +36,11 @@ describe('#solutionGenerator tests', function () {
   it('solving a matrix with three solutions returns a generator with the correct three solutions', function () {
     const generator = solutionGenerator(M.MATRIX_WITH_THREE_SOLUTIONS)
     const solutions = Array.from(generator)
-    expect(solutions).to.deep.include.members([[0, 3, 4]])
-    expect(solutions).to.deep.include.members([[1, 2]])
-    expect(solutions).to.deep.include.members([[2, 4, 5]])
+    expect(solutions).to.deep.equalInAnyOrder([
+      [0, 3, 4],
+      [1, 2],
+      [2, 4, 5],
+    ])
   })
 
   it('step events', () => {
