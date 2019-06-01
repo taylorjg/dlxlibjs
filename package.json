@@ -21,9 +21,9 @@
     "eslint": "eslint .",
     "build": "npm run rollup",
     "rollup": "rollup --config",
-    "test": "mocha",
+    "test": "npm run build && mocha",
     "docs": "jsdoc src/dlx.js --destination docs --template node_modules/docdash",
-    "prepublishOnly": "npm run build && npm test && npm run docs"
+    "prepublishOnly": "npm test && npm run docs"
   },
   "author": "Jonathan Taylor",
   "license": "MIT",
