@@ -11,12 +11,18 @@ This is a JavaScript library to solve exact cover problems by implementing Donal
 
 ## Demos
 
+_(These projects are hosted on the [Heroku](http://heroku.com) free tier so may take 10s or so to spin up)_
+
 * [Visualisation of solving a Sudoku puzzle](https://sudoku-dlx-js.herokuapp.com/)
 * [Visualisation of solving a Tetris Cube puzzle](https://tetriscubewebgl.herokuapp.com/)
 * [Visualisation of solving a Ripple Effect puzzle](https://ripple-effect-dlx.herokuapp.com/)
   * _demonstrates use of secondary columns_
 * [Pentominoes](https://pentominoes.herokuapp.com/)
   * _demonstrates use of a web worker to do the solving_
+
+## Documentation
+
+* https://taylorjg.github.io/dlxlibjs
 
 ## Example
 
