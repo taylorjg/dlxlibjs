@@ -65,3 +65,7 @@ dlx.solve(matrix)
 // step[7]: 2,4,5
 // solution[2]: 2,4,5
 ```
+
+## Migrating from 1.0.3 to 2.0.0
+
+See the [migration guide](MIGRATION_GUIDE.md).

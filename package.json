@@ -22,7 +22,7 @@
     "build": "npm run rollup",
     "rollup": "rollup --config",
     "test": "npm run build && mocha",
-    "docs": "jsdoc src/dlx.js --destination docs --template node_modules/docdash",
+    "docs": "jsdoc --package package.json --readme HOME.md --destination docs --template node_modules/docdash src/dlx.js",
     "prepublishOnly": "npm test && npm run docs"
   },
   "author": "Jonathan Taylor",

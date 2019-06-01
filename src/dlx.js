@@ -46,7 +46,7 @@ export function solve(matrix, options) {
  * @param {object} [options] Optional options object.
  * @param {number} options.numPrimaryColumns The number of primary columns. By default, all columns are primary.
  *     Any remaining columns are considered to be secondary columns.
- * @returns {IterableIterator.<number>} An ES2015 Generator object that can be used to iterate over the solutions.
+ * @yields {Solution} The next solution.
  */
 export function* solutionGenerator(matrix, options) {
   yield* new Dlx().solutionGenerator(matrix, options)
@@ -58,7 +58,8 @@ const defaultOptions = {
 }
 
 /**
- * 
+ * Use this class if you want to handle {@link Dlx#event:step} or {@link Dlx#event:solution} events.
+ * Otherwise, it is easier to use the global functions, {@link solve} and {@link solutionGenerator}.
  */
 export class Dlx extends EventEmitter {
 
@@ -98,7 +99,7 @@ export class Dlx extends EventEmitter {
    * @param {object} [options] Additional options object.
    * @param {number} [options.numPrimaryColumns] The number of primary columns. By default, all columns are primary.
    *     Any remaining columns are considered to be secondary columns.
-   * @returns {IterableIterator.<Solution>} An ES2015 Generator object that can be used to iterate over the solutions.
+   * @yields {Solution} The next solution.
    * @fires Dlx#step
    * @fires Dlx#solution
    */
