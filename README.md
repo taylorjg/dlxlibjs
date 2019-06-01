@@ -22,9 +22,13 @@ _(These projects are hosted on the [Heroku](http://heroku.com) free tier so may 
 
 ## Documentation
 
+> **NOTE:** This documentation pertains to the [dlxlib@next](https://www.npmjs.com/package/dlxlib/v/2.0.0-alpha.1) release of dlxlib.
+
 * https://taylorjg.github.io/dlxlibjs
 
 ## Example
+
+> **NOTE:** This example pertains to the [dlxlib@next](https://www.npmjs.com/package/dlxlib/v/2.0.0-alpha.1) release of dlxlib.
 
 ```
 const { Dlx } = require('dlxlib')
