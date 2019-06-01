@@ -11,7 +11,7 @@
   "main": "./lib/index.js",
   "files": [
     "/lib",
-    "/doc"
+    "/docs"
   ],
   "directories": {
     "lib": "lib",
@@ -21,9 +21,9 @@
     "eslint": "eslint .",
     "build": "npm run rollup",
     "rollup": "rollup --config",
-    "test": "npm run build && mocha",
-    "prepublishOnly": "npm test",
-    "doc": "jsdoc src/dlx.js --destination doc --template node_modules/docdash"
+    "test": "mocha",
+    "docs": "jsdoc src/dlx.js --destination docs --template node_modules/docdash",
+    "prepublishOnly": "npm run build && npm test && npm run docs"
   },
   "author": "Jonathan Taylor",
   "license": "MIT",
@@ -42,8 +42,7 @@
     "eslint": "^5.16.0",
     "jsdoc": "^3.6.2",
     "mocha": "^6.1.4",
-    "rollup": "^1.12.4",
-    "rollup-plugin-terser": "^5.0.0"
+    "rollup": "^1.12.4"
   },
   "dependencies": {}
 }

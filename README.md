@@ -9,18 +9,19 @@ This is a JavaScript library to solve exact cover problems by implementing Donal
 * [Dancing Links (Wikipedia)](http://en.wikipedia.org/wiki/Dancing_Links "Dancing Links (Wikipedia)")
 * [Exact cover (Wikipedia)](http://en.wikipedia.org/wiki/Exact_cover "Exact cover (Wikipedia)")
 
-## Examples
+## Demos
 
 * [Visualisation of solving a Sudoku puzzle](https://sudoku-dlx-js.herokuapp.com/)
 * [Visualisation of solving a Tetris Cube puzzle](https://tetriscubewebgl.herokuapp.com/)
-* [Pentominoes](https://pentominoes.herokuapp.com/)
 * [Visualisation of solving a Ripple Effect puzzle](https://ripple-effect-dlx.herokuapp.com/)
+  * _demonstrates use of secondary columns_
+* [Pentominoes](https://pentominoes.herokuapp.com/)
+  * _demonstrates use of a web worker to do the solving_
 
-## Simple Example
+## Example
 
-```js
-require('@babel/polyfill')
-const { solve } = require('../lib')
+```
+const { Dlx } = require('dlxlib')
 
 const matrix = [
   [1, 0, 0, 0],
@@ -31,104 +32,26 @@ const matrix = [
   [0, 0, 1, 0]
 ]
 
-const solutions = solve(matrix)
-solutions.forEach((solution, index) =>
-  console.log('solution[%d]: %s', index, solution))
+const onStep = e =>
+  console.log(`step[${e.stepIndex}]: ${e.partialSolution}`)
 
+const onSolution = e =>
+  console.log(`solution[${e.solutionIndex}]: ${e.solution}`)
+
+const dlx = new Dlx()
+dlx.on('step', onStep)
+dlx.on('solution', onSolution)
+dlx.solve(matrix)
+
+// step[0]: 
+// step[1]: 0
+// step[2]: 0,3
+// step[3]: 0,3,4
 // solution[0]: 0,3,4
-// solution[1]: 1,2
+// step[4]: 2
+// step[5]: 2,1
+// solution[1]: 2,1
+// step[6]: 2,4
+// step[7]: 2,4,5
 // solution[2]: 2,4,5
-```
-
-## Callbacks
-
-The `onSearchStep` callback is particularly useful for visualising the progress of the algorithm.
-
-```js
-require('@babel/polyfill')
-const { solve } = require('../lib')
-
-const matrix = [
-  [1, 0, 0, 0],
-  [0, 1, 1, 0],
-  [1, 0, 0, 1],
-  [0, 0, 1, 1],
-  [0, 1, 0, 0],
-  [0, 0, 1, 0]
-]
-
-let searchStepCount = 0
-const onSearchStep = rowIndices =>
-  console.log('onSearchStep[%d]: %s', searchStepCount++, rowIndices)
-
-let solutionCount = 0
-const onSolutionFound = rowIndices =>
-  console.log('\nonSolutionFound[%d]: %s\n', solutionCount++, rowIndices)
-
-solve(matrix, onSearchStep, onSolutionFound)
-
-// onSearchStep[0]: 
-// onSearchStep[1]: 0
-// onSearchStep[2]: 0,3
-// onSearchStep[3]: 0,3,4
-
-// onSolutionFound[0]: 0,3,4
-
-// onSearchStep[4]: 2
-// onSearchStep[5]: 2,1
-
-// onSolutionFound[1]: 2,1
-
-// onSearchStep[6]: 2,4
-// onSearchStep[7]: 2,4,5
-
-// onSolutionFound[2]: 2,4,5
-```
-
-## Specifying the number of solutions to return
-
-```js
-require('@babel/polyfill')
-const { solve } = require('../lib')
-
-const matrix = [
-  [1, 0, 0, 0],
-  [0, 1, 1, 0],
-  [1, 0, 0, 1],
-  [0, 0, 1, 1],
-  [0, 1, 0, 0],
-  [0, 0, 1, 0]
-]
-
-const solutions = solve(matrix, undefined, undefined, 1)
-solutions.forEach((solution, index) =>
-  console.log('solution[%d]: %s', index, solution))
-
-// solution[0]: 0,3,4
-```
-
-## Using the solution generator
-
-As an alternative to `dlxlib.solve`, `dlxlib.solutionGenerator` returns a
-[Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
-
-```js
-require('@babel/polyfill')
-const { solutionGenerator } = require('../lib')
-
-const matrix = [
-  [1, 0, 0, 0],
-  [0, 1, 1, 0],
-  [1, 0, 0, 1],
-  [0, 0, 1, 1],
-  [0, 1, 0, 0],
-  [0, 0, 1, 0]
-]
-
-for (const solution of solutionGenerator(matrix))
-  console.log('solution: %s', solution)
-
-// solution: 0,3,4
-// solution: 1,2
-// solution: 2,4,5
 ```
