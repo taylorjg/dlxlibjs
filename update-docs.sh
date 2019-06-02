@@ -16,5 +16,5 @@ SUBDIR=`ls "$DIR/docs/dlxlib"`
 echo SUBDIR=$SUBDIR
 cp -R "$DIR/docs/dlxlib/${SUBDIR}/" .
 git add -A
-git commit -m "Update docs"
+git commit -m "[ci skip] Update docs"
 git push
