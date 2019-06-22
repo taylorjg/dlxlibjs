@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <script src="../dist/dlxlib.js"></script>
+    <script>
+        const matrix = [
+            [1, 0, 0, 0],
+            [0, 1, 1, 0],
+            [1, 0, 0, 1],
+            [0, 0, 1, 1],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0]
+        ]
+
+        const onStep = e => console.log(`step[${e.stepIndex}]: ${e.partialSolution}`)
+        const onSolution = e => console.log(`solution[${e.solutionIndex}]: ${e.solution}`)
+
+        const dlx = new dlxlib.Dlx()
+        dlx.on('step', onStep)
+        dlx.on('solution', onSolution)
+        dlx.solve(matrix)
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

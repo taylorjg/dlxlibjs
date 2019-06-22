@@ -1,5 +1,6 @@
+.DS_Store
 *.log
 *.tgz
 node_modules/
-lib/
+dist/
 docs/

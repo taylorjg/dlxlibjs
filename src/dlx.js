@@ -1,5 +1,4 @@
-const EventEmitter = require('events')
-
+import EventEmitter from 'events'
 import { DataObject } from './dataObject'
 import { ColumnObject } from './columnObject'
 
@@ -231,11 +230,13 @@ class SearchState {
   }
 
   searchStep() {
-    const e = {
-      partialSolution: this.currentSolution.slice(),
-      stepIndex: this.stepIndex++
+    if (this.currentSolution.length) {
+      const e = {
+        partialSolution: this.currentSolution.slice(),
+        stepIndex: this.stepIndex++
+      }
+      this.dlx.emit('step', e)
     }
-    this.dlx.emit('step', e)
   }
 
   solutionFound() {

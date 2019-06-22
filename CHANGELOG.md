@@ -1,10 +1,10 @@
+2.0.0-alpha.2 (xxx June 2019)
+
+* Don't emit an initial `step` event with an empty partial solution
+
 2.0.0-alpha.1 (1st June 2019)
 
 * Added support for secondary columns
-* Simplified the build process
-  * Removed `Babel` step
-  * Switched from `webpack` to `rollup`
-  * Now, only supports ES2015 environments
 
 ## Breaking API Changes
 

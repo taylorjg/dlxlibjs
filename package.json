@@ -1,6 +1,6 @@
 {
   "name": "dlxlib",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Solves exact cover problems by implementing Donald E. Knuth's Algorithm X using the Dancing Links technique (DLX)",
   "keywords": [
     "dancing links",
@@ -8,21 +8,21 @@
     "exact cover",
     "algorithm"
   ],
-  "main": "./lib/index.js",
+  "main": "dist/dlxlib.js",
   "files": [
-    "/lib",
-    "/docs"
+    "dist",
+    "docs"
   ],
   "directories": {
-    "lib": "lib",
+    "dist": "dist",
     "test": "test"
   },
   "scripts": {
     "eslint": "eslint .",
-    "build": "npm run rollup",
-    "rollup": "rollup --config",
-    "test": "npm run build && mocha",
+    "build": "webpack",
+    "test": "mocha",
     "docs": "jsdoc --package package.json --readme HOME.md --destination docs --template node_modules/docdash src/dlx.js",
+    "pretest": "npm run build",
     "prepublishOnly": "npm test && npm run docs"
   },
   "author": "Jonathan Taylor",
@@ -36,13 +36,19 @@
     "url": "https://github.com/taylorjg/dlxlibjs/issues"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
+    "core-js": "^3.1.4",
     "deep-equal-in-any-order": "^1.0.13",
     "docdash": "^1.1.1",
     "eslint": "^5.16.0",
     "jsdoc": "^3.6.2",
     "mocha": "^6.1.4",
-    "rollup": "^1.12.4"
+    "regenerator-runtime": "^0.13.2",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.4"
   },
   "dependencies": {}
 }

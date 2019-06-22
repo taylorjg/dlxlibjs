@@ -2,7 +2,7 @@ const chai = require('chai')
 const { expect } = chai
 const deepEqualInAnyOrder = require('deep-equal-in-any-order')
 chai.use(deepEqualInAnyOrder)
-const { solutionGenerator, Dlx } = require('../lib')
+const { solutionGenerator, Dlx } = require('../dist/dlxlib')
 const M = require('./matrices')
 
 describe('#solutionGenerator tests', function () {
