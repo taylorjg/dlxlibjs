@@ -4,7 +4,7 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: './lib/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'dlxlib.js',
@@ -16,9 +16,9 @@ module.exports = {
     rules: [
       {
         test: /\.(js)$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         use: 'babel-loader'
       }
     ]
-  },
+  }
 }

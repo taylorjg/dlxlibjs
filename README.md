@@ -51,8 +51,7 @@ const onSolution = e =>
 const dlx = new Dlx()
 dlx.on('step', onStep)
 dlx.on('solution', onSolution)
-const options = { numSolutions: 2 }
-dlx.solve(matrix, options)
+dlx.solve(matrix)
 
 // step[0]: 0
 // step[1]: 0,3
@@ -61,6 +60,9 @@ dlx.solve(matrix, options)
 // step[3]: 2
 // step[4]: 2,1
 // solution[1]: 2,1
+// step[5]: 2,4
+// step[6]: 2,4,5
+// solution[2]: 2,4,5
 ```
 
 ## Migrating from 1.0.3 to 2.0.0

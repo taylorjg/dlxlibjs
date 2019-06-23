@@ -11,19 +11,20 @@
   "main": "dist/dlxlib.js",
   "files": [
     "dist",
-    "docs"
+    "doc"
   ],
   "directories": {
-    "dist": "dist",
-    "test": "test"
+    "lib": "lib",
+    "test": "test",
+    "doc": "doc"
   },
   "scripts": {
     "eslint": "eslint .",
     "build": "webpack",
     "test": "mocha",
-    "docs": "jsdoc --package package.json --readme HOME.md --destination docs --template node_modules/docdash src/dlx.js",
+    "doc": "jsdoc --package package.json --readme HOME.md --destination doc --template node_modules/docdash lib/dlx.js",
     "pretest": "npm run build",
-    "prepublishOnly": "npm test && npm run docs"
+    "prepublishOnly": "npm test && npm run doc"
   },
   "author": "Jonathan Taylor",
   "license": "MIT",
